@@ -6,6 +6,7 @@ import com.example.contacatapi.contacatapi.DTO.ContactResponse;
 import com.example.contacatapi.contacatapi.service.ContactService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,13 +26,22 @@ public class ContactController {
         ContactResponse contactResponse = contactService.addContact(userId, contactRequest);
         return new ResponseEntity<>(contactResponse, HttpStatus.CREATED);
     }
-
-    // List all contacts for a user
+    // List all contacts for a user  using pagination and sorting
     @GetMapping("/{userId}")
-    public ResponseEntity<List<ContactResponse>> listContacts(@PathVariable Long userId) {
-        List<ContactResponse> contactList = contactService.listContacts(userId);
-        return new ResponseEntity<>(contactList, HttpStatus.OK);
+    public ResponseEntity<Page<ContactResponse>> listContacts(@PathVariable Long userId,
+                                                              @RequestParam(defaultValue = "0") int page,
+                                                              @RequestParam(defaultValue = "2") int size,
+                                                              @RequestParam(defaultValue = "firstName") String sortBy) {
+        Page<ContactResponse> contactsPage  = contactService.listContacts(userId,page,size,sortBy);
+        return new ResponseEntity<>(contactsPage , HttpStatus.OK);
     }
+
+//    // List all contacts for a user
+//    @GetMapping("/{userId}")
+//    public ResponseEntity<List<ContactResponse>> listContacts(@PathVariable Long userId) {
+//        List<ContactResponse> contactList = contactService.listContacts(userId);
+//        return new ResponseEntity<>(contactList, HttpStatus.OK);
+//    }
 
     // Retrieve a contact by ID
     @GetMapping("/{userId}/{contactId}")
