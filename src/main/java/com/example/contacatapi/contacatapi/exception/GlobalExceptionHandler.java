@@ -15,4 +15,10 @@ public ResponseEntity<String> userNotFoundExceptionHandler(UserNotFoundException
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 
+    @ExceptionHandler(ContactNotFoundException.class)
+    public ResponseEntity<String> contactNotFoundExceptionHandler(ContactNotFoundException ex){
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+
 }

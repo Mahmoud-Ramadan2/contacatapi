@@ -30,8 +30,6 @@ public class JWTUtil {
 
     public String validateTokenAndRetrieveEmail(String token) {
         try {
-
-
             JWTVerifier verifier = JWT.require(Algorithm.HMAC256(jwtSecretKey))
                     .withSubject("contentapi")
                     .withIssuer("mahmoud/contact")
