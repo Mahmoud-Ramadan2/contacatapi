@@ -20,4 +20,9 @@ public class UserService {
         return userRepository.getUserByEmail(email).orElseThrow(()->new UserNotFoundException("user with Email: " + email +" does`t exist"));
     }
 
+    public User addNewUser(User user){
+        return userRepository.save(user);
+
+    }
+
 }
