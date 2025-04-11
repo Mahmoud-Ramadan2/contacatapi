@@ -1,9 +1,6 @@
 package com.example.contacatapi.contacatapi.DTO;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Past;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
 
@@ -18,6 +15,7 @@ public class ContactRequest {
     private String lastName;
 
     @NotBlank(message = "Phone number is required")
+    @Pattern(regexp = "^\\+?[0-9]{10,15}$", message = "Invalid mobile number")
     private String phone;
 
     @Email(message = "Email must be valid")

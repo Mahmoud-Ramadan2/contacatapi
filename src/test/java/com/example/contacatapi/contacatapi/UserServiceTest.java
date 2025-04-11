@@ -44,7 +44,8 @@ public class UserServiceTest {
         mockUser.setEmail(testEmail);
         when(userRepository.getUserByEmail(testEmail))
                 .thenReturn(Optional.of(mockUser));
-//Act
+
+        //Act
         User result = userService.getUserByEmail(testEmail);
 
         // assert & verify
@@ -58,13 +59,13 @@ public class UserServiceTest {
         //Arrange
         Long userId = 1L;
         User mockUser = new User();
-mockUser.setId(userId);
+        mockUser.setId(userId);
         ContactRequest contactRequest = new ContactRequest();
         contactRequest.setFirstName("Hany");
         contactRequest.setLastName("Mohamed");
         contactRequest.setEmail("Hany@temp.com");
         contactRequest.setPhone("011234575");
-        contactRequest.setBirthDate(LocalDate.of(1990,1,2));
+        contactRequest.setBirthDate(LocalDate.of(1990, 1, 2));
 
         Contact mockContact = new Contact();
         mockContact.setId(1L);
@@ -91,13 +92,7 @@ mockUser.setId(userId);
         verify(contactRepository, times(1)).save(any(Contact.class));
 
 
-
-
-
-
-
     }
-
 
 
 }
