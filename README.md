@@ -9,22 +9,30 @@ This is a Spring Boot application that provides a simple contact management syst
 - **Hash passwords and store them securely**
 - **Pagination and Sorting**: Supports pagination and sorting for the `GET /api/contacts` endpoint.
 - **Swagger UI for API testing**
+- **Docker Support**: Easily containerize the application and database using Docker and Docker Compose for consistent development and deployment environments.
 
 ## Prerequisites
 Before you begin, ensure you have the following installed on your system:
+-Docker and Docker Compose
+## OR
 -Java 21
 -MySQL Server
 -Maven
 -Postman (or any API client)
 
 ## Installation
-1. **Clone the repository**:
-   git clone https://github.com/Mahmoud-Ramadan2/contacatapi.git
+### Option 1: Run Locally
+1. git clone https://github.com/Mahmoud-Ramadan2/contacatapi.git
    cd contacatapi
 2. **Configure MySQL**
 3. **Build the application**:
    mvn clean install
    mvn spring-boot:run
+### Option 2:  Run with Docker Compose
+1. Build and Run the App with Docker Compose:
+   docker-compose up --build
+
+
 
 ## API Endpoints
 - **User Registration and Authentication**
