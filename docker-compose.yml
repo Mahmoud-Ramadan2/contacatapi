@@ -1,42 +1,42 @@
 
-services:
-  mysql-db:
-    image: mysql:8.0
-    container_name: mysql-db
-    environment:
-      SPRING_SECURITY_USER_NAME: testuser
-      SPRING_SECURITY_USER_PASSWORD: devpassword123
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: contact_management
-      MYSQL_USER: appuser
-      MYSQL_PASSWORD: apppassword
+  services:
+    mysql-db:
 
-    volumes:
-      - mysql_data:/var/lib/mysql
-    ports:
-      - "3306:3306"
-    networks:
-      - contact-network
-  contactapi:
-      build:
-        dockerfile: Dockerfile
-      container_name: contactapi
-      ports:
-        - "8080:8080"
-      depends_on:
-          - mysql-db
+      image: mysql:8.0
+      container_name: mysql-db
       environment:
-        SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/contact_management
-        SPRING_DATASOURCE_USERNAME: appuser
-        SPRING_DATASOURCE_PASSWORD: apppassword
-        JWT_SECRET_KEY: sas12z.Secritdsrer39834haj2
-        JWT_EXPIRATION: "900000"
+
+        MYSQL_ROOT_PASSWORD: rootpassword
+        MYSQL_DATABASE: contact_management
+        MYSQL_USER: appuser
+        MYSQL_PASSWORD: apppassword
+
+      volumes:
+        - mysql_data:/var/lib/mysql
+      ports:
+        - "3303:3306"
       networks:
         - contact-network
+    contactapi:
+        build:
+          dockerfile: Dockerfile
+        container_name: contactapi
+        ports:
+          - "7070:8080"
+        depends_on:
+            - mysql-db
+        environment:
+          SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/contact_management
+          SPRING_DATASOURCE_USERNAME: appuser
+          SPRING_DATASOURCE_PASSWORD: apppassword
+          JWT_SECRET_KEY: sas12z.Secritdsrer39834haj2
+          JWT_EXPIRATION: "900000"
+        networks:
+          - contact-network
 
-volumes:
-  mysql_data:
+  volumes:
+    mysql_data:
 
-networks:
-  contact-network:
-    driver: bridge
+  networks:
+    contact-network:
+      driver: bridge
