@@ -1,0 +1,58 @@
+
+variables:
+  IMAGE_NAME: mahmoudramadan2/my-repo
+  IMAGE_TAG: contact-api-1.0
+
+# 1 - Run Unit Tests
+
+stages:
+  - test
+  - package
+  - build
+
+run_tests:
+  stage: test
+  image: maven:3.9.9-eclipse-temurin-21
+  services:
+    - name: mysql:8.0
+      alias: mysql-db
+  variables:
+    SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/contact_management
+    SPRING_DATASOURCE_USERNAME: appuser
+    SPRING_DATASOURCE_PASSWORD: apppassword
+    MYSQL_ROOT_PASSWORD: rootpassword
+    MYSQL_DATABASE: contact_management
+    MYSQL_USER: appuser
+    MYSQL_PASSWORD: apppassword
+  script:
+    - mvn clean test
+
+# 2- Package JAR
+
+package_jar:
+  stage: package
+  image: maven:3.9.9-eclipse-temurin-21
+  script:
+    - mvn clean package -DskipTests
+  artifacts:
+    paths:
+      - target/*.jar   # make jar available for docker build
+    # untracked: false
+    # when: on_success
+    # access: all
+    # expire_in: 30 days
+
+
+# 3- Build & Push Docker Image
+build_image:
+  stage: build
+  image: docker:20.10.16
+  services:
+    - docker:20.10.16-dind
+  variables:
+    DOCKER_TLS_CERTDIR: "/certs"
+  before_script:
+    - docker login -u $REGISTRY_USER -p $REGISTRY_PASS
+  script:
+    - docker build -t $IMAGE_NAME:$IMAGE_TAG .
+    - docker push $IMAGE_NAME:$IMAGE_TAG
